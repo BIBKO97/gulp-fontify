@@ -26,7 +26,7 @@
     "eslint": "^1.10.3"
   },
   "scripts": {
-    "build": "cd src; babel *.js -d ../src",
+    "build": "cd src && babel *.js -d ../src",
     "docs": "esdoc -c esdoc.json",
     "prepublish": "npm run build",
     "pretest": "eslint src/**/*.js",
