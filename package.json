@@ -1,6 +1,6 @@
 {
   "name": "gulp-fontify",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Encode font files as CSS by using Gulp (gulp-fontify).",
   "main": "src/index.js",
   "type": "module",
