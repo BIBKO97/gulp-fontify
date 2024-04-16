@@ -1,7 +1,7 @@
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+    value: true
 });
 
 var _path = require('path');
@@ -19,7 +19,9 @@ var _through2 = _interopRequireDefault(_through);
 var _gulpUtil = require('gulp-util');
 var _gulpUtil2 = _interopRequireDefault(_gulpUtil);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) {
+    return obj && obj.__esModule ? obj : {default: obj};
+}
 
 /**
  * Extract the `font-family` from the font's file name.
@@ -27,9 +29,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @return {String}          `font-family` property and value.
  */
 function getFontFamily(basename) {
-  let parts = basename.split('-');
-  let fontFamily = parts.length > 1 ? parts[0] + '-' + parts[1] : parts[0];
-  return 'font-family:"' + fontFamily + '";';
+    let parts = basename.split('-');
+    let fontFamily = parts.length > 1 ? parts[0] + '-' + parts[1] : parts[0];
+    return 'font-family:"' + fontFamily + '";';
 }
 
 /**
@@ -38,15 +40,15 @@ function getFontFamily(basename) {
  * @return {String}          `font-style` property and guessed value.
  */
 function guessFontStyle(basename) {
-  return basename.split('-').slice(1).map(function (item) {
-    return item.toLowerCase();
-  }).reduce(function (prev, item) {
-    if (_cssFontStyleKeywords2.default.indexOf(item) >= 0) {
-      return 'font-style:' + item + ';';
-    }
+    return basename.split('-').slice(1).map(function (item) {
+        return item.toLowerCase();
+    }).reduce(function (prev, item) {
+        if (_cssFontStyleKeywords2.default.indexOf(item) >= 0) {
+            return 'font-style:' + item + ';';
+        }
 
-    return prev;
-  }, '');
+        return prev;
+    }, '');
 }
 
 /**
@@ -55,23 +57,23 @@ function guessFontStyle(basename) {
  * @return {String}          `font-weight` property and guessed value.
  */
 function guessFontWeight(basename) {
-  return basename.split('-').slice(1).map(function (item) {
-    return item.toLowerCase();
-  }).reduce(function (prev, item) {
-    if (item === 'normal') {
-      return prev;
-    }
+    return basename.split('-').slice(1).map(function (item) {
+        return item.toLowerCase();
+    }).reduce(function (prev, item) {
+        if (item === 'normal') {
+            return prev;
+        }
 
-    if (_cssFontWeightNames2.default[item]) {
-      return 'font-weight:' + _cssFontWeightNames2.default[item] + ';';
-    }
+        if (_cssFontWeightNames2.default[item]) {
+            return 'font-weight:' + _cssFontWeightNames2.default[item] + ';';
+        }
 
-    if (_cssFontWeightKeywords2.default.indexOf(item) >= 0) {
-      return 'font-weight:' + item + ';';
-    }
+        if (_cssFontWeightKeywords2.default.indexOf(item) >= 0) {
+            return 'font-weight:' + item + ';';
+        }
 
-    return prev;
-  }, '');
+        return prev;
+    }, '');
 }
 
 /**
@@ -80,8 +82,8 @@ function guessFontWeight(basename) {
  * @return {String}      Base64-encoded contents inside a `data:` URL.
  */
 function getSrc(file) {
-  var encodedContents = new Buffer(file.contents).toString('base64');
-  return 'src:url(data:' + _mime2.default.getType(file.path) + ';charset=utf-8;base64,' + encodedContents + ');';
+    var encodedContents = new Buffer(file.contents).toString('base64');
+    return 'src:url(data:' + _mime2.default.lookup(file.path) + ';charset=utf-8;base64,' + encodedContents + ');';
 }
 
 /**
@@ -94,30 +96,30 @@ function getSrc(file) {
  * @return {Object} CSS file object.
  */
 function fontify() {
-  return _through2.default.obj(function (file, enc, callback) {
-    if (file.isNull()) {
-      this.push(file);
-      return callback();
-    }
+    return _through2.default.obj(function (file, enc, callback) {
+        if (file.isNull()) {
+            this.push(file);
+            return callback();
+        }
 
-    if (file.isStream()) {
-      this.emit('error', new _gulpUtil2.default.PluginError('gulp-fontify', 'Streaming is not supported'));
-      return callback();
-    }
+        if (file.isStream()) {
+            this.emit('error', new _gulpUtil2.default.PluginError('gulp-fontify', 'Streaming is not supported'));
+            return callback();
+        }
 
-    if (file.isBuffer()) {
-      var basename = _path2.default.basename(file.path, _path2.default.extname(file.path));
+        if (file.isBuffer()) {
+            var basename = _path2.default.basename(file.path, _path2.default.extname(file.path));
 
-      var attributes = [getFontFamily(basename), guessFontStyle(basename), guessFontWeight(basename), getSrc(file)];
+            var attributes = [getFontFamily(basename), guessFontStyle(basename), guessFontWeight(basename), getSrc(file)];
 
-      var contents = '@font-face{' + attributes.join('') + '}';
+            var contents = '@font-face{' + attributes.join('') + '}';
 
-      file.contents = new Buffer(contents);
-      file.path = _gulpUtil2.default.replaceExtension(file.path, '.css');
+            file.contents = new Buffer(contents);
+            file.path = _gulpUtil2.default.replaceExtension(file.path, '.css');
 
-      return callback(null, file);
-    }
-  });
+            return callback(null, file);
+        }
+    });
 }
 
 exports.default = fontify;
