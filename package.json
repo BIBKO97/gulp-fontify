@@ -1,13 +1,13 @@
 {
   "name": "gulp-fontify",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Encode font files as CSS by using Gulp (gulp-fontify).",
   "main": "src/index.js",
   "type": "module",
   "deprecated": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/BIBKO97/npm-gulp-fontify.git"
+    "url": "https://github.com/BIBKO97/gulp-fontify.git"
   },
   "dependencies": {
     "css-font-style-keywords": "^1.0.1",
